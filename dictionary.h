@@ -20,12 +20,13 @@ typedef uint32_t key_t;
 _T class Dictionary {
     public:
         Dictionary();
-        void    add(K key, T value);
-        void    remove(K key);
-        T       get(K key);
-        size_t  count() { return _elementsCount; }
 
-        void    printDebug();
+        Dictionary<K, T>&   add(K key, T value);
+        Dictionary<K, T>&   remove(K key);
+        T                   get(K key);
+        size_t              count() { return _elementsCount; }
+
+        void                printDebug();
 
         T operator[] (K key);
     private:
@@ -66,7 +67,7 @@ _T key_t Dictionary<K, T>::hash(std::string stringKey) {
 }
 
 
-_T void Dictionary<K, T>::remove(K key) { 
+_T Dictionary<K, T>& Dictionary<K, T>::remove(K key) { 
     key_t index = hash(key);
     valueNodes_t& cellNodes = arrValues[index];
 
@@ -78,14 +79,14 @@ _T void Dictionary<K, T>::remove(K key) {
         if (it->first != key) continue;
 
         cellNodes.erase(it);
-        return;
+        return *this;
     }
 
     throw std::invalid_argument("Element <" + std::string(key) + "> not exists" );
 }
 
 
-_T void Dictionary<K, T>::add(K key, T value) {
+_T Dictionary<K, T>& Dictionary<K, T>::add(K key, T value) {
     if (isNeedToReallocMemory())
         reallocMemory();
 
@@ -99,12 +100,14 @@ _T void Dictionary<K, T>::add(K key, T value) {
             if (it->first != key) continue;
 
             it->second = value;
-            return;
+            return *this;
         }
     } 
 
     cellNodes.push_back(std::make_pair(key, value));
     _elementsCount++;
+
+    return *this;
 }
 
 
