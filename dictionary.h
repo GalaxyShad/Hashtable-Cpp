@@ -26,7 +26,7 @@ _T class Dictionary {
         T                   get(K key);
         size_t              count() { return _elementsCount; }
 
-        void                printDebug();
+        void    printDebug(std::ostream& outstream);
 
         T operator[] (K key);
     private:
@@ -43,8 +43,6 @@ _T class Dictionary {
 
         void reallocMemory();
         bool isNeedToReallocMemory();
-
-
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,20 +151,20 @@ _T bool Dictionary<K, T>::isNeedToReallocMemory() {
 }
 
 
-_T void Dictionary<K, T>::printDebug() {
-    std::cout << "Elements count: " << count() << "\n"
+_T void Dictionary<K, T>::printDebug(std::ostream& outstream) {
+    outstream << "Elements count: " << count() << "\n"
               << "Real size: " <<  arrValues.size() << "\n"
               << "Fill factor: " << getFillFactor() << "\n";
     for (int i = 0; i < arrValues.size(); i++) {
-        std::cout << i << "; ";
+        outstream << i << "; ";
 
         valueNodes_t& cellNodes = arrValues[i];
 
         for (auto it = cellNodes.begin(); it != cellNodes.end(); it++) {
-            std::cout << "(" << it->first << ", " << it->second << ") ";
+            outstream << "(" << it->first << ", " << it->second << ") ";
         }
 
-        std::cout << std::endl;
+        outstream << std::endl;
     }
 }
 

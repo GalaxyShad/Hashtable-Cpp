@@ -14,8 +14,9 @@ typedef std::chrono::high_resolution_clock Clock;
 /////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#define N       100000
-#define N_DIV     100
+#define N           1000000
+#define N_DIV       100
+#define K           N / 100
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +33,8 @@ void testStrings() {
 
     dict.remove("knux");
     dict.add("shadow", 123);
-    dict.printDebug();
+
+    dict.printDebug(std::cout);
 
     std::cout << "shadow=" << dict["shadow"]
               << "count=" << dict.count()
@@ -50,12 +52,14 @@ void testPerfomance() {
         for (size_t j = 0; j < i; j++) {
             dict.add(std::to_string(j), j);
         }
+
         auto after = Clock::now();
 
         using namespace std::chrono;
         duration<double> time_span = duration_cast<duration<double>>(after - before);
-        std::cout << time_span.count() << ";";
+        std::cout << time_span.count() / K << ";";
     } 
+
     std::cout << std::endl;
 }
 
@@ -70,11 +74,12 @@ void testPerfomanceSTLMap() {
         for (size_t j = 0; j < i; j++) {
             dict[std::to_string(j)] = j;
         }
+
         auto after = Clock::now();
 
         using namespace std::chrono;
         duration<double> time_span = duration_cast<duration<double>>(after - before);
-        std::cout << time_span.count() << ";";
+        std::cout << time_span.count() / K << ";";
     } 
     std::cout << std::endl;
 }
@@ -90,11 +95,12 @@ void testPerfomanceSTLUnorderedMap() {
         for (size_t j = 0; j < i; j++) {
             dict[std::to_string(j)] = j;
         }
+        
         auto after = Clock::now();
 
         using namespace std::chrono;
         duration<double> time_span = duration_cast<duration<double>>(after - before);
-        std::cout << time_span.count() << ";";
+        std::cout << time_span.count() / K << ";";
     } 
     std::cout << std::endl;
 }
