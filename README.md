@@ -1,6 +1,5 @@
 # Simple header-only Hashtable on C++
 Course project for "Algorithms and Data Structures". SurSU 2022.\
-Check dictionary.h to see available public methods.
 
 ## 📈 Comparison with std::map and std::unordered_map
 To investigate the performance of the algorithm, as well as its comparison with ready-made STL implementations, 
@@ -18,6 +17,9 @@ In the graph, My Dictionary also shows sharp jumps in some values. This means th
 
 For stl::map, the values obtained in practice do not correspond to the theoretical asymptotic complexity O(log N).
 
+## 📢 API
+Check dictionary.h to see available public methods.
+
 ## 🧪 Examples
 ### Code
 ```cpp
@@ -26,29 +28,27 @@ For stl::map, the values obtained in practice do not correspond to the theoretic
 
 #include "dictionary.h"
 
-int main() {
-    std::string strs[] = {
-        "sonic", 
-        "tails",
-        "knux",
-        "shadow",
-        "silver",
-    };
-
+void testStrings() {
     Dictionary<std::string, int> dict;
 
-    for (int i = 0; i < 5; i++) {
-        dict.add(strs[i], i);
-    }
+    dict.add("sonic",  0)
+        .add("tails",  1)
+        .add("knux",   2)
+        .add("shadow", 3)
+        .add("silver", 4);
 
     dict.remove("knux");
     dict.add("shadow", 123);
-    dict.printDebug();
+
+    dict.printDebug(std::cout);
 
     std::cout << "shadow=" << dict["shadow"]
               << "count=" << dict.count()
               << std::endl;
+}
 
+int main() {
+    testStrings();
     return 0;
 }
 ```
